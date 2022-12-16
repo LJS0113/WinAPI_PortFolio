@@ -32,9 +32,7 @@ namespace ya
 		bool IsDeath() { return mDead; }
 		void SetDeathTime(float time);
 
-
-
-		void AddComponent(Component* component);
+				void AddComponent(Component* component);
 		template <typename T>
 		__forceinline T* AddComponent()
 		{
@@ -43,7 +41,6 @@ namespace ya
 
 			return comp;
 		}
-
 
 		template <typename T>
 		__forceinline T* GetComponent()

@@ -1,5 +1,7 @@
 #include "yaGameObject.h"
 #include "yaTime.h"
+#include "yaApplication.h"
+#include "yaCamera.h"
 
 namespace ya
 {
@@ -64,6 +66,16 @@ namespace ya
 
 			component->Render(hdc);
 		}
+
+		// Player Pos Debug Render
+		//HBRUSH tr = Application::GetInstance().GetBrush(eBrushColor::Transparent);
+		//Brush brush(hdc, tr);
+		//HPEN blackPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
+		//HPEN oldPen = (HPEN)SelectObject(hdc, blackPen);
+		//mPos = Camera::CalculatePos(mPos);
+		//Rectangle(hdc, (mPos.x), (mPos.y), (mPos.x + 10.0f), (mPos.y + 10.0f));
+		//SelectObject(hdc, oldPen);
+		//DeleteObject(blackPen);
 	}
 	void GameObject::OnCollisionEnter(Collider* other)
 	{

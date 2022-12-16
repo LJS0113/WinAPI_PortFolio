@@ -3,6 +3,7 @@
 
 namespace ya
 {
+	class Animator;
 	class Image;
 	class Monster : public GameObject
 	{
@@ -23,6 +24,22 @@ namespace ya
 	private:
 		Image* mImage;
 		float mTime;
+		
+		Image* mFlyImage;
+		Image* mGaperHeadImage;
+		Image* mGaperBodyImage;
+		Image* mClottyImage;
+		Image* mBossImage;
+
+		Animator* mFlyAnimator;
+		Animator* mGaperHeadAnimator;
+		Animator* mGaperBodyAnimator;
+		Animator* mClottyAnimator;
+		Animator* mBossAnimator;
+
+		GameObject* mGaperHead;
+		GameObject* mGaperBody;
+
 	};
 
 }

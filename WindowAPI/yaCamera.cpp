@@ -25,7 +25,7 @@ namespace ya
 		mLookPosition = (mResolution / 2.0f);
 
 		//mEffect = eCameraEffect::FadeOut;
-		mCutton = Image::Create(L"CameraCutton", 1600, 900);
+		mCutton = Image::Create(L"CameraCutton", 1280, 720);
 	}
 
 	void Camera::Tick()
@@ -45,25 +45,22 @@ namespace ya
 			}
 		}
 
-
-
-		//if (KEY_PREESE(eKeyCode::UP))
-		//{
-		//	mLookPosition.y -= 600.0f * Time::DeltaTime();
-		//}
-		//if (KEY_PREESE(eKeyCode::DOWN))
-		//{
-		//	mLookPosition.y += 600.0f * Time::DeltaTime();
-		//}
-		//if (KEY_PREESE(eKeyCode::LEFT))
-		//{
-		//	mLookPosition.x -= 600.0f * Time::DeltaTime();
-		//}
-		//if (KEY_PREESE(eKeyCode::RIGHT))
-		//{
-		//	mLookPosition.x += 600.0f * Time::DeltaTime();
-		//}
-
+		if (KEY_PREESE(eKeyCode::NUM_8))
+		{
+			mLookPosition.y -= 600.0f * Time::DeltaTime();
+		}
+		if (KEY_PREESE(eKeyCode::NUM_5))
+		{
+			mLookPosition.y += 600.0f * Time::DeltaTime();
+		}
+		if (KEY_PREESE(eKeyCode::NUM_4))
+		{
+			mLookPosition.x -= 600.0f * Time::DeltaTime();
+		}
+		if (KEY_PREESE(eKeyCode::NUM_6))
+		{
+			mLookPosition.x += 600.0f * Time::DeltaTime();
+		}
 
 		if (mTarget != nullptr)
 			mLookPosition = mTarget->GetPos();

@@ -8,6 +8,15 @@ namespace ya
 	class Player : public GameObject
 	{
 	public:
+		enum class State
+		{
+			IDLE,
+			MOVE,
+			ATTACK,
+			DIE,
+		};
+
+	public:
 		Player();
 		~Player();
 
@@ -23,18 +32,25 @@ namespace ya
 		void SetHp(int hp) { mHp = hp; }
 		int GetHp() { return mHp; }
 
+		void Idle();
+		void Move();
+		void Attack();
+		void Die();
+
 	private:
+		State mState;
 		float mCoff;
 		float mSpeed;
+		Vector2 mMisiileDir;
+		int mHp;
+
 		Image* mImage;
-		Image* mHeadImage;
-		Image* mBodyImage;
-		Animator* mAnimator;
+
 		Animator* mHeadAnimator;
 		Animator* mBodyAnimator;
-		Vector2 mMisiileDir;
 
-		int mHp;
+		GameObject* mHead;
+		GameObject* mBody;
 	};
 
 }

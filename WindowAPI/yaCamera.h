@@ -24,7 +24,7 @@ namespace ya
 	private:
 		static Vector2 mResolution; // 화면 해상도
 		static Vector2 mLookPosition;
-		static Vector2 mDistance; // 해상도 중ㅇ심좌표와 현제 카메라의 간격차
+		static Vector2 mDistance; // 해상도 중심좌표와 현제 카메라의 간격차
 		static GameObject* mTarget;
 
 		static eCameraEffect mEffect;

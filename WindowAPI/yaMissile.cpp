@@ -14,7 +14,7 @@ namespace ya
 		, mAliveTime(30.0f)
 	{
 		SetPos({ 100.0f, 100.0f });
-		SetScale({ 20.0f, 20.0f });
+		SetScale({ 1.0f, 1.0f });
 
 		Collider* col = new Collider();
 		col->SetScale(Vector2(20.0f, 20.0f));
@@ -22,18 +22,18 @@ namespace ya
 		AddComponent(col);
 		if (mImage == nullptr)
 		{
-			mImage = Resources::Load<Image>(L"missile", L"..\\Resources\\Image\\TearsDestoryAtlas.bmp");
+			mImage = Resources::Load<Image>(L"missile", L"..\\Resources\\Image\\TearsDestroyAtlas.bmp");
 		}
 
 
-		Animator* ani = new Animator();
-		ani->CreateAnimation(L"missile", mImage
-			, Vector2(0.0f, 0.0f), Vector2(63.0f, 63.0f)
-			, Vector2(1.0f, 1.0f), 16, 0.1f);
+		//Animator* ani = new Animator();
+		//ani->CreateAnimation(L"Idle", mImage
+		//	, Vector2(0.0f, 0.0f), Vector2(63.0f, 63.0f)
+		//	, Vector2(1.0f, 1.0f), 16, 0.1f);
+		//AddComponent(ani);
+		//ani->Play(L"Idle", true);
 
-		ani->Play(L"Idle", true);
-
-		AddComponent(ani);
+		
 		//Camera::SetTarget(this);
 
 	}
@@ -88,8 +88,8 @@ namespace ya
 
 		pos = Camera::CalculatePos(pos);
 
-		TransparentBlt(hdc, pos.x, pos.y, rect.x, rect.y
-			, mImage->GetDC(), 0, 0, mImage->GetWidth(), mImage->GetHeight()
+		TransparentBlt(hdc, pos.x, pos.y, 63, 63
+			, mImage->GetDC(), 3, 0, 63, 63
 			, RGB(255, 0, 255));
 
 		GameObject::Render(hdc);

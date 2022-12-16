@@ -2,13 +2,38 @@ IsaacPlayer.bmp
 320*418
 
 머리 크기
-40 * 34
+40 * 40
 
 몸통크기
-32 * 34
-
-
+32 * 26
 
 Link.bmp
 젤다 캐릭터
 120 * 130
+
+TearsIdle.bmp
+눈물 크기
+32*32
+
+TearsDestroyAtlas.bmp
+1008*63
+63*63
+
+OneBasementMap.bmp
+4개
+1280*2880
+1280*720
+
+fly.bmp
+128*128
+32*32
+
+gaper.bmp
+64*64
+32*32
+
+gaperBody.bmp
+192*128
+32*32
+
+nn
