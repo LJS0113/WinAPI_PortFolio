@@ -193,6 +193,9 @@
     <ClInclude Include="yaToolScene.h">
       <Filter>Engine\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="yaMap.h">
+      <Filter>Engine\GameObject\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="WindowAPI.rc">
@@ -324,6 +327,9 @@
     </ClCompile>
     <ClCompile Include="yaToolScene.cpp">
       <Filter>Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="yaMap.cpp">
+      <Filter>Engine\GameObject\Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

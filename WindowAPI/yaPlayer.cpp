@@ -80,6 +80,24 @@ namespace ya
 			, Vector2(0.0f, 116.0f), Vector2(32.0f, 26.0f)
 			, Vector2(-30.0f, -35.0f), 10, 0.1f);
 
+		// 아래방향 공격 애니메이션
+		mHeadAnimator->CreateAnimation(L"HeadDownAttack", mImage
+			, Vector2(40.0f, 0.0f), Vector2(40.0f, 40.0f)
+			, Vector2(-40.0f, -90.0f), 1, 0.2f);
+
+		// 오른쪽방향 공격 애니메이션
+		mHeadAnimator->CreateAnimation(L"HeadRightAttack", mImage
+			, Vector2(120.0f, 0.0f), Vector2(40.0f, 40.0f)
+			, Vector2(-40.0f, -90.0f), 1, 0.2f);
+
+		// 왼쪽방향 공격 애니메이션
+		mHeadAnimator->CreateAnimation(L"HeadLeftAttack", mImage
+			, Vector2(280.0f, 0.0f), Vector2(40.0f, 40.0f)
+			, Vector2(-40.0f, -90.0f), 1, 0.2f);
+
+		mHeadAnimator->Play(L"HeadIdle", true);
+		mBodyAnimator->Play(L"BodyIdle", true);
+
 		////mAnimator->FindEvents(L"MoveRight")->mCompleteEvent = std::bind(&Player::WalkComplete, this);
 		//mAnimator->GetCompleteEvent(L"MoveRight") = std::bind(&Player::WalkComplete, this);
 		//mHeadAnimator->GetCompleteEvent(L"HeadMoveRight") = std::bind(&Player::WalkComplete, this);
@@ -98,7 +116,6 @@ namespace ya
 		coliider2->SetScale(Vector2(10.0f, 10.0f));
 		AddComponent<Rigidbody>();
 
-		
 		mCoff = 0.1f;
 		mMisiileDir = Vector2::One;
 	}
@@ -111,7 +128,7 @@ namespace ya
 
 	void Player::Tick()
 	{
-		GameObject::Tick();
+
 		Pos playerPos = GetPos();
 		Vector2 playerScale = GetScale();
 		mHead->SetPos(playerPos);
@@ -147,6 +164,9 @@ namespace ya
 		default:
 			break;
 		}
+
+		GameObject::Tick();
+
 	}
 
 	void Player::Render(HDC hdc)
@@ -188,77 +208,191 @@ namespace ya
 
 	void Player::Idle()
 	{
-		if (KEY_PREESE(eKeyCode::W)
-			|| KEY_PREESE(eKeyCode::S)
-			|| KEY_PREESE(eKeyCode::A)
-			|| KEY_PREESE(eKeyCode::D))
-		{
-			mState = State::MOVE;
-		}
-
-		if (KEY_PREESE(eKeyCode::UP)
-			|| KEY_PREESE(eKeyCode::DOWN)
-			|| KEY_PREESE(eKeyCode::LEFT)
-			|| KEY_PREESE(eKeyCode::RIGHT))
-		{
-			mState = State::ATTACK;
-		}
-
 		mHeadAnimator->Play(L"HeadIdle", true);
 		mBodyAnimator->Play(L"BodyIdle", true);
 
-	}
-	void Player::Move()
-	{
-		
 		if (KEY_DOWN(eKeyCode::W))
 		{
 			mHeadAnimator->Play(L"HeadUp", true);
 			mBodyAnimator->Play(L"BodyUp", true);
-			GetComponent<Rigidbody>()->AddForce(Vector2(0.0f, -200.0f));
+			mState = State::MOVE;
 		}
 		if (KEY_DOWN(eKeyCode::S))
 		{
 			mHeadAnimator->Play(L"HeadDown", true);
 			mBodyAnimator->Play(L"BodyDown", true);
-			GetComponent<Rigidbody>()->AddForce(Vector2(0.0f, 200.0f));
+			mState = State::MOVE;
 		}
 		if (KEY_DOWN(eKeyCode::A))
 		{
 			mHeadAnimator->Play(L"HeadLeft", true);
 			mBodyAnimator->Play(L"BodyLeft", true);
-			GetComponent<Rigidbody>()->AddForce(Vector2(-200.0f, 0.0f));
+			mState = State::MOVE;
 		}
 		if (KEY_DOWN(eKeyCode::D))
 		{
 			mHeadAnimator->Play(L"HeadRight", true);
 			mBodyAnimator->Play(L"BodyRight", true);
-			GetComponent<Rigidbody>()->AddForce(Vector2(200.0f, 0.0f));
+			mState = State::MOVE;
 		}
+
+		if (KEY_DOWN(eKeyCode::UP))
+		{
+			mHeadAnimator->Play(L"HeadUp", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(0.0f, -1.0f);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::DOWN))
+		{
+			mHeadAnimator->Play(L"HeadDownAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(0.0f, 1.0f);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::LEFT))
+		{
+			mHeadAnimator->Play(L"HeadLeftAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(-1.0f, 0.0f);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::RIGHT))
+		{
+			mHeadAnimator->Play(L"HeadRightAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(1.0f, 0.0f);
+			mState = State::ATTACK;
+		}
+	}
+	void Player::Move()
+	{
 
 		if (KEY_PREESE(eKeyCode::W))
 		{
-			mHeadAnimator->Play(L"HeadUp", true);
-			mBodyAnimator->Play(L"BodyUp", true);
 			GetComponent<Rigidbody>()->AddForce(Vector2(0.0f, -200.0f));
 		}
 		if (KEY_PREESE(eKeyCode::S))
 		{
 			GetComponent<Rigidbody>()->AddForce(Vector2(0.0f, 200.0f));
-			mHeadAnimator->Play(L"HeadDown", true);
-			mBodyAnimator->Play(L"BodyDown", true);
 		}
 		if (KEY_PREESE(eKeyCode::A))
 		{
 			GetComponent<Rigidbody>()->AddForce(Vector2(-200.0f, 0.0f));
-			mHeadAnimator->Play(L"HeadLeft", true);
-			mBodyAnimator->Play(L"BodyLeft", true);
 		}
 		if (KEY_PREESE(eKeyCode::D))
 		{
 			GetComponent<Rigidbody>()->AddForce(Vector2(200.0f, 0.0f));
-			mHeadAnimator->Play(L"HeadRight", true);
-			mBodyAnimator->Play(L"BodyRight", true);
+		}
+
+		if (KEY_DOWN(eKeyCode::UP))
+		{
+			mHeadAnimator->Play(L"HeadUp", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(0.0f, -1.0f);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::DOWN))
+		{
+			mHeadAnimator->Play(L"HeadDownAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(0.0f, 1.0f);
+			//mHeadAnimator->Play(L"HeadDown", true);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::LEFT))
+		{
+			mHeadAnimator->Play(L"HeadLeftAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(-1.0f, 0.0f);
+			//mHeadAnimator->Play(L"HeadLeft", true);
+			mState = State::ATTACK;
+		}
+
+		if (KEY_DOWN(eKeyCode::RIGHT))
+		{
+			mHeadAnimator->Play(L"HeadRightAttack", true);
+			Missile* missile = new Missile();
+
+			Scene* playScene = SceneManager::GetPlayScene();
+			playScene->AddGameObject(missile, eColliderLayer::Player_Projecttile);
+
+			Vector2 playerPos = GetPos();
+			Vector2 playerScale = GetScale() / 2.0f;
+			Vector2 missileScale = missile->GetScale();
+
+			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
+			missile->mDir += Vector2(1.0f, 0.0f);
+			//mHeadAnimator->Play(L"HeadRight", true);
+			mState = State::ATTACK;
 		}
 
 		if (KEY_UP(eKeyCode::W)
@@ -277,13 +411,6 @@ namespace ya
 			mState = State::MOVE;
 		}
 
-		if (KEY_DOWN(eKeyCode::UP)
-			|| KEY_DOWN(eKeyCode::DOWN)
-			|| KEY_DOWN(eKeyCode::LEFT)
-			|| KEY_DOWN(eKeyCode::RIGHT))
-		{
-			mState = State::ATTACK;
-		}
 	}
 	void Player::Attack()
 	{
@@ -301,11 +428,12 @@ namespace ya
 
 			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
 			missile->mDir += Vector2(0.0f, -1.0f);
+			mState = State::ATTACK;
 		}
 
 		if (KEY_DOWN(eKeyCode::DOWN))
 		{
-			mHeadAnimator->Play(L"HeadDown", true);
+			mHeadAnimator->Play(L"HeadDownAttack", true);
 			Missile* missile = new Missile();
 
 			Scene* playScene = SceneManager::GetPlayScene();
@@ -317,11 +445,13 @@ namespace ya
 
 			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
 			missile->mDir += Vector2(0.0f, 1.0f);
+			mHeadAnimator->Play(L"HeadDown", true);
+			mState = State::ATTACK;
 		}
 
 		if (KEY_DOWN(eKeyCode::LEFT))
 		{
-			mHeadAnimator->Play(L"HeadLeft", true);
+			mHeadAnimator->Play(L"HeadLeftAttack", true);
 			Missile* missile = new Missile();
 
 			Scene* playScene = SceneManager::GetPlayScene();
@@ -333,11 +463,13 @@ namespace ya
 
 			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
 			missile->mDir += Vector2(-1.0f, 0.0f);
+			mHeadAnimator->Play(L"HeadLeft", true);
+			mState = State::ATTACK;
 		}
 
 		if (KEY_DOWN(eKeyCode::RIGHT))
 		{
-			mHeadAnimator->Play(L"HeadRight", true);
+			mHeadAnimator->Play(L"HeadRightAttack", true);
 			Missile* missile = new Missile();
 
 			Scene* playScene = SceneManager::GetPlayScene();
@@ -349,6 +481,8 @@ namespace ya
 
 			missile->SetPos((playerPos + playerScale) - (missileScale / 2.0f));
 			missile->mDir += Vector2(1.0f, 0.0f);
+			mHeadAnimator->Play(L"HeadRight", true);
+			mState = State::ATTACK;
 		}
 
 		if (KEY_UP(eKeyCode::UP)
@@ -359,23 +493,23 @@ namespace ya
 			mState = State::IDLE;
 		}
 
-		if (KEY_PREESE(eKeyCode::W)
-			|| KEY_PREESE(eKeyCode::S)
-			|| KEY_PREESE(eKeyCode::A)
-			|| KEY_PREESE(eKeyCode::D))
+		if (KEY_DOWN(eKeyCode::W)
+			|| KEY_DOWN(eKeyCode::S)
+			|| KEY_DOWN(eKeyCode::A)
+			|| KEY_DOWN(eKeyCode::D))
 		{
 			mState = State::MOVE;
 		}
 
-		if (KEY_PREESE(eKeyCode::UP)
-			|| KEY_PREESE(eKeyCode::DOWN)
-			|| KEY_PREESE(eKeyCode::LEFT)
-			|| KEY_PREESE(eKeyCode::RIGHT))
-		{
-			mState = State::ATTACK;
-		}
-
+		//if (KEY_PREESE(eKeyCode::UP)
+		//	|| KEY_PREESE(eKeyCode::DOWN)
+		//	|| KEY_PREESE(eKeyCode::LEFT)
+		//	|| KEY_PREESE(eKeyCode::RIGHT))
+		//{
+		//	mState = State::ATTACK;
+		//}
 	}
+
 	void Player::Die()
 	{
 	}

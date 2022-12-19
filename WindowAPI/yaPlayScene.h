@@ -3,9 +3,6 @@
 
 namespace ya
 {
-	class Image;
-	class Player;
-	class Monster;
 	class PlayScene : public Scene
 	{
 	public:

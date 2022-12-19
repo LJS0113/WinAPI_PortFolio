@@ -26,9 +26,6 @@ namespace ya
 	void BgImageObject::Tick()
 	{
 		GameObject::Tick();
-
-		//Playerpos;
-		//mPixelImage->GetPixel(Playerpos);
 	}
 
 	void BgImageObject::Render(HDC hdc)

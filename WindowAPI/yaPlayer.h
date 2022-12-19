@@ -39,8 +39,9 @@ namespace ya
 
 	private:
 		State mState;
-		float mCoff;
+
 		float mSpeed;
+		float mCoff;
 		Vector2 mMisiileDir;
 		int mHp;
 

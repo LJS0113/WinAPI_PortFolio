@@ -21,7 +21,6 @@ namespace ya
 					mEvent();
 			}
 
-
 			std::function<void()> mEvent;
 		};
 		struct Events
@@ -54,7 +53,6 @@ namespace ya
 	private:
 		std::map<std::wstring, Animation*> mAnimations;
 		std::map<std::wstring, Events*> mEvents;
-
 
 		Animation* mPlayAnimaion;
 		bool mbLoop;

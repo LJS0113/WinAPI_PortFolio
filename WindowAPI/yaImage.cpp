@@ -70,7 +70,6 @@ namespace ya
 
 		mWidth = bitInfo.bmWidth;
 		mHeight = bitInfo.bmHeight;
-
 		HDC mainDC = Application::GetInstance().GetWindowData().hdc;
 		mHdc = CreateCompatibleDC(mainDC);
 

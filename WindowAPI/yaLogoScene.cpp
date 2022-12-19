@@ -75,9 +75,7 @@ namespace ya
 
 	void LogoScene::Enter()
 	{
-		CollisionManager::SetLayer(eColliderLayer::Monster, eColliderLayer::Player, true);
-		CollisionManager::SetLayer(eColliderLayer::Monster, eColliderLayer::Player_Projecttile, true);
-		CollisionManager::SetLayer(eColliderLayer::Ground, eColliderLayer::Player, true);
+
 	}
 
 	void LogoScene::Exit()

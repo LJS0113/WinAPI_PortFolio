@@ -9,6 +9,7 @@
 #include "yaAnimator.h"
 #include "yaCollider.h"
 #include "yaCamera.h"
+#include "yaRigidbody.h"
 
 namespace ya
 {
@@ -16,61 +17,22 @@ namespace ya
 		: mTime(0.0f)
 	{
 		SetName(L"Monster");
-		SetPos({ 1600 / 2, 300 / 2 });
-		SetScale({ 3.0f, 3.0f });
+		SetPos({ 800, 300 / 2 });
+		SetScale({ 1.0f, 1.0f });
 
 		if (mImage == nullptr)
 		{
-			//mFlyImage = Resources::Load<Image>(L"Fly", L"..\\Resources\\Image\\fly.bmp");
+			
 			mGaperHeadImage = Resources::Load<Image>(L"GaperHead", L"..\\Resources\\Image\\gaperHead.bmp");
 			mGaperBodyImage = Resources::Load<Image>(L"GaperBody", L"..\\Resources\\Image\\gaperBody.bmp");
-			mClottyImage = Resources::Load<Image>(L"Clotty", L"..\\Resources\\Image\\clotty.bmp");
-			mBossImage = Resources::Load<Image>(L"Boss", L"..\\Resources\\Image\\Middleboss.bmp");
-		}
-
-		mGaperHead = new GameObject();
-		mGaperBody = new GameObject();
-
-		mGaperHeadAnimator = new Animator();
-		mGaperHeadAnimator->CreateAnimation(L"GaperHeadIdle", mGaperHeadImage
-			, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f)
-			, Vector2(0.0f, 0.0f), 1, 0.2f);
-
-		mGaperHead->AddComponent(mGaperHeadAnimator);
-
-		mGaperBodyAnimator = new Animator();
-		mGaperBodyAnimator->CreateAnimation(L"GaperBodyIdle", mGaperBodyImage
-			, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f)
-			, Vector2(0.0f, 0.0f), 1, 0.1f);
-		mGaperBody->AddComponent(mGaperBodyAnimator);
-
-		mGaperHeadAnimator->Play(L"GaperHeadIdle", true);
-		mGaperBodyAnimator->Play(L"GaperBodyIdle", true);
-
-		//AddComponent(new Animator());
-		AddComponent(new Collider());
-	}
-
-	Monster::Monster(Vector2 position)
-		: mTime(0.0f)
-	{
-		SetName(L"Monster");
-		SetPos(position);
-		SetScale({ 3.0f, 3.0f });
-
-		if (mImage == nullptr)
-		{
+			//mClottyImage = Resources::Load<Image>(L"Clotty", L"..\\Resources\\Image\\clotty.bmp");
+			//mBossImage = Resources::Load<Image>(L"Boss", L"..\\Resources\\Image\\Middleboss.bmp");
 			//mFlyImage = Resources::Load<Image>(L"Fly", L"..\\Resources\\Image\\fly.bmp");
-			mGaperHeadImage = Resources::Load<Image>(L"GaperHead", L"..\\Resources\\Image\\gaper.bmp");
-			mGaperBodyImage = Resources::Load<Image>(L"GaperBody", L"..\\Resources\\Image\\gaperBody.bmp");
-			mClottyImage = Resources::Load<Image>(L"Clotty", L"..\\Resources\\Image\\clotty.bmp");
-			mBossImage = Resources::Load<Image>(L"Boss", L"..\\Resources\\Image\\Middleboss.bmp");
 		}
 
 		mGaperHead = new GameObject();
 		mGaperBody = new GameObject();
 
-		//Idle 상태
 		mGaperHeadAnimator = new Animator();
 		mGaperHeadAnimator->CreateAnimation(L"GaperHeadIdle", mGaperHeadImage
 			, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f)
@@ -81,14 +43,54 @@ namespace ya
 		mGaperBodyAnimator = new Animator();
 		mGaperBodyAnimator->CreateAnimation(L"GaperBodyIdle", mGaperBodyImage
 			, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f)
-			, Vector2(0.0f, 0.0f), 1, 0.1f);
+			, Vector2(0.0f, 50.0f), 6, 0.1f);
 		mGaperBody->AddComponent(mGaperBodyAnimator);
 
 		mGaperHeadAnimator->Play(L"GaperHeadIdle", true);
 		mGaperBodyAnimator->Play(L"GaperBodyIdle", true);
-		//AddComponent(new Animator());
+
 		AddComponent(new Collider());
 	}
+
+	//Monster::Monster(Vector2 position)
+	//	: mTime(0.0f)
+	//{
+	//	SetName(L"Monster");
+	//	SetPos(position);
+	//	SetScale({ 3.0f, 3.0f });
+
+	//	if (mImage == nullptr)
+	//	{
+	//		mGaperHeadImage = Resources::Load<Image>(L"GaperHead", L"..\\Resources\\Image\\gaperHead.bmp");
+	//		mGaperBodyImage = Resources::Load<Image>(L"GaperBody", L"..\\Resources\\Image\\gaperBody.bmp");
+	//		//mClottyImage = Resources::Load<Image>(L"Clotty", L"..\\Resources\\Image\\clotty.bmp");
+	//		//mBossImage = Resources::Load<Image>(L"Boss", L"..\\Resources\\Image\\Middleboss.bmp");
+	//		//mFlyImage = Resources::Load<Image>(L"Fly", L"..\\Resources\\Image\\fly.bmp");
+	//	}
+
+	//	mGaperHead = new GameObject();
+	//	mGaperBody = new GameObject();
+
+	//	//Idle 상태
+	//	mGaperHeadAnimator = new Animator();
+	//	mGaperHeadAnimator->CreateAnimation(L"GaperHeadIdle", mGaperHeadImage
+	//		, Vector2(32.0f, 32.0f), Vector2(32.0f, 32.0f)
+	//		, Vector2(0.0f, 0.0f), 1, 0.2f);
+
+	//	mGaperHead->AddComponent(mGaperHeadAnimator);
+
+	//	mGaperBodyAnimator = new Animator();
+	//	mGaperBodyAnimator->CreateAnimation(L"GaperBodyIdle", mGaperBodyImage
+	//		, Vector2(0.0f, 0.0f), Vector2(32.0f, 32.0f)
+	//		, Vector2(0.0f, 0.0f), 1, 0.1f);
+	//	mGaperBody->AddComponent(mGaperBodyAnimator);
+
+	//	mGaperHeadAnimator->Play(L"GaperHeadIdle", true);
+	//	mGaperBodyAnimator->Play(L"GaperBodyIdle", true);
+	//	//AddComponent(new Animator());
+	//	AddComponent(new Collider());
+
+	//}
 
 	Monster::~Monster()
 	{
@@ -98,8 +100,6 @@ namespace ya
 
 	void Monster::Tick()
 	{
-		GameObject::Tick();
-
 		Pos monsterPos = GetPos();
 		Vector2 monsterScale = GetScale();
 		mGaperHead->SetPos(monsterPos);
@@ -110,13 +110,19 @@ namespace ya
 		mGaperHead->Tick();
 		mGaperBody->Tick();
 
+		GameObject::Tick();
+
+		if (KEY_DOWN(eKeyCode::U))
+		{
+			SetPos({ 900, 300});
+		}
 	}
 
 	void Monster::Render(HDC hdc)
 	{
-		mGaperHead->Render(hdc);
 		mGaperBody->Render(hdc);
-
+		mGaperHead->Render(hdc);
+		
 		GameObject::Render(hdc);
 	}
 

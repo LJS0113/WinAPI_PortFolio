@@ -35,6 +35,7 @@ enum class eComponentType
 {
 	Rigidbody,
 	Collider,
+	Map,
 	Aimator,
 	Sound,
 	End,
@@ -53,6 +54,7 @@ enum class eColliderLayer
 	Monster,
 	Monster_Projecttile,
 	Ground,
+	Map,
 
 	//UI
 	BackPack,

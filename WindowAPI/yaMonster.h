@@ -24,7 +24,7 @@ namespace ya
 	private:
 		Image* mImage;
 		float mTime;
-		
+
 		Image* mFlyImage;
 		Image* mGaperHeadImage;
 		Image* mGaperBodyImage;
